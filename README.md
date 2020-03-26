@@ -1,4 +1,5 @@
 # Vueflix
+[![Watch the video](https://i.imgur.com/ONOmMqc.png)](https://youtu.be/LAnsf9VhVzs)
 
 # About this Project
 This project is Netflix simple clone built with Vuejs
