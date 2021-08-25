@@ -1,8 +1,7 @@
 import axios from "axios";
 
 export const Movies = type => {
-  let movieAPI = ''
   return axios.create({
-    baseURL: `http://www.omdbapi.com/?apikey=${movieAPI}&${type}`
+    baseURL: `http://www.omdbapi.com/?apikey=${process.env.VUE_APP_MOVIEOMB_KEY}&${type}`
   });
 };

@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <Header />
     <div id="myListContainer">
       <div id="myListContent">
-        <div v-bind:key="movie.imdbID" v-for="movie in this.$store.state.list" id="moviesSaved">
+        <div :key="movie.imdbID" v-for="movie in this.$store.state.list" id="moviesSaved">
           <div id="changeColorImage" v-if="movies.includes(movie.imdbID)">
             <img :src="movie.Poster" id="movieSaveImage" />
           </div>
@@ -16,14 +14,13 @@
               id="checkedButton"
               title="Já assistido"
               v-if="movies.includes(movie.imdbID)"
-              @click="$store.commit('removeWatched', movie), updateValues()"
+              @click="removeWatched(movie)"
             >
               <v-icon name="check" scale="1.2" color="#010" />
             </button>
             <button
               id="checkAsWatched"
-              v-on:click="markAsWatched(movie), checkIfWatched()"
-              @click="markAsWatchedToast"
+              @click="markAsWatched(movie), checkIfWatched()"
               title="Marcar como assistido"
               v-else
             >
@@ -32,7 +29,7 @@
             <button
               id="markToRemove"
               title="Remover da minha lista"
-              v-on:click="$store.commit('removeData', movie), removeToast()"
+              @click="$store.commit('removeData', movie), removeToast()"
             >
               <v-icon name="trash" scale="1.2" color="#e50931" />
             </button>
@@ -40,12 +37,10 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
 import Icon from "vue-awesome/components/Icon";
-import Header from "../components/Header";
 export default {
   name: "MyList",
   data() {
@@ -55,7 +50,6 @@ export default {
     };
   },
   components: {
-    Header,
     "v-icon": Icon
   },
   mounted() {
@@ -64,6 +58,11 @@ export default {
   methods: {
     markAsWatched(movie) {
       this.$store.commit("markAsWatched", movie);
+      this.markAsWatchedToast();
+    },
+    removeWatched(movie) {
+      this.$store.commit('removeWatched', movie);
+      window.location.reload();
     },
     removeToast() {
       this.$toast.open({
@@ -90,9 +89,6 @@ export default {
         this.movies.push(current.imdbID);
       });
     },
-    updateValues() {
-      window.location.reload();
-    }
   }
 };
 </script>
@@ -107,15 +103,14 @@ export default {
   width: 90%;
   height: 100%;
   margin-top: 20px;
-  margin-left: 2%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 30px;
+  display: flex;
 }
 #moviesSaved {
   display: flex;
   flex-direction: column;
-  width: 90%;
+  width: 200px;
+  height: 300px;
+  margin-right: 30px;
   transition: 0.5s;
   cursor: pointer;
 }
@@ -177,20 +172,17 @@ export default {
   width: 50%;
   margin-left: 2px;
 }
-@media only screen and (max-width: 999px) {
-  #myListContent {
-    width: 50%;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 30px;
-  }
-}
 @media only screen and (max-width: 730px) {
   #myListContent {
-    width: 60%;
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    grid-gap: 30px;
+    width: 90%;
+    display: flex;
+  }
+}
+@media only screen and (max-width: 600px) {
+  #myListContent {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
   }
 }
 </style>

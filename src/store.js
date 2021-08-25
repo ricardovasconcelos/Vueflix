@@ -22,17 +22,14 @@ export default new Vuex.Store({
       }
       this.commit("saveData");
     },
-
     saveData(state) {
       window.localStorage.setItem("list", JSON.stringify(state.list));
     },
-
     removeData(state, movie) {
       let index = state.list.indexOf(movie);
       state.list.splice(index, 1);
       this.commit("saveData");
     },
-
     markAsWatched(state, movieID) {
       let movieMarked = state.movieWatched.find(
         current => current.imdbID == movieID.imdbID
