@@ -1,6 +1,6 @@
 <template>
   <div id="header">
-    <img class="logoHeader" :src="image" v-on:click="NavigateMain" />
+    <img class="logoHeader" :src="image" @click="navigateMain" />
     <nav role="navigation">
       <ul>
         <li id="selections">
@@ -9,7 +9,7 @@
             <v-icon name="sort-down" scale="1" color="#e5e5e5" />
           </a>
           <ul class="dropdown">
-            <li v-on:click="NavigateMain">
+            <li @click="navigateMain">
               <a>Início</a>
             </li>
             <li>
@@ -21,16 +21,16 @@
             <li>
               <a>Mais recentes</a>
             </li>
-            <li v-on:click="NavigateMyList">
+            <li @click="navigateMyList">
               <a>Minha lista</a>
             </li>
           </ul>
         </li>
-        <li class="items" v-on:click="NavigateMain">Início</li>
+        <li class="items" @click="navigateMain">Início</li>
         <li class="items">Séries</li>
         <li class="items">Filmes</li>
         <li class="items">Mais recentes</li>
-        <li class="items" v-on:click="NavigateMyList">Minha lista</li>
+        <li class="items" @click="navigateMyList">Minha lista</li>
         <li></li>
       </ul>
     </nav>
@@ -49,11 +49,12 @@
 <script>
 import image from "../assets/logo-small.png";
 import Icon from "vue-awesome/components/Icon";
+
 export default {
   name: "Header",
   data() {
     return {
-      image: image,
+      image,
       inputSearch: ""
     };
   },
@@ -61,10 +62,10 @@ export default {
     "v-icon": Icon
   },
   methods: {
-    NavigateMain() {
+    navigateMain() {
       this.$router.push({ name: "Main" });
     },
-    NavigateMyList() {
+    navigateMyList() {
       this.$router.push({ name: "MyList" });
     }
   }

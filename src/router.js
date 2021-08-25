@@ -12,7 +12,7 @@ export default new Router({
   routes: [
     { path: "/", name: "Preloader", component: Preloader },
     { path: "/Main", name: "Main", component: Main },
-    { path: "/Main/Detail/:id", name: "Detail", component: Detail },
+    { path: "/Detail/:id", name: "Detail", component: Detail },
     { path: "/MyList", name: "MyList", component: MyList }
   ]
 });

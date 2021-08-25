@@ -1,7 +1,7 @@
 <template>
   <div id="newMovies">
     <div id="slide">
-      <h1>{{ typeDescription }}</h1>
+      <h1>{{ description }}</h1>
       <div v-show="showLoading" id="loadingMovie">
         <Spinner />
       </div>
@@ -14,12 +14,12 @@
         :navigationClickTargetSize="9"
       >
         <slide
-          v-bind:key="movie.imdbID + removeIdDuplicate()"
-          v-for="movie in movies"
           id="movieDiv"
+          :key="movie.imdbID + Math.random()"
+          v-for="movie in movies"
         >
-          <div v-on:click="showDetail(movie.imdbID)">
-            <img :src="movie.Poster" id="imagemPosterSlide" />
+          <div @click="showDetail(movie.imdbID)">
+            <img :src="movie.Poster" id="imagemPosterSlide" loading="lazy"/>
           </div>
         </slide>
       </carousel>
@@ -34,7 +34,6 @@ import { Movies } from "../services/api";
 
 export default {
   name: "Movies",
-
   data() {
     return {
       movies: [],
@@ -42,30 +41,33 @@ export default {
       paginationButtons: false
     };
   },
-  props: ["typeMovie", "typeDescription"],
+  props: {
+    type: String,
+    description: String,
+  },
   components: {
     Carousel,
     Slide,
     Spinner
   },
-  async mounted() {
-    this.showLoading = true;
-    try {
-      const response = await Movies(this.typeMovie).get();
-      this.movies = response.data.Search;
-    } catch (error) {
-      console.error(error);
-    } finally {
-      this.showLoading = false;
-    }
+  mounted() {
+    this.getMovieDetail();
   },
   methods: {
+    async getMovieDetail(){
+      this.showLoading = true;
+      try {
+        const { data: { Search } } = await Movies(this.type).get();
+        this.movies = Search;
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.showLoading = false;
+      }
+    },
     showDetail(_id) {
       this.$router.push({ name: "Detail", params: { id: _id } });
     },
-    removeIdDuplicate() {
-      return String(Math.random());
-    }
   }
 };
 </script>

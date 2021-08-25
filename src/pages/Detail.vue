@@ -1,16 +1,11 @@
 <template>
   <div>
-    <Header />
     <div id="Detail">
       <div id="containerDetail">
         <div id="movieDetail">
           <div id="iconsContainer">
             <div id="starIcon">
-              <v-icon name="star" scale="1.2" color="#e50931" />
-              <v-icon name="star" scale="1.2" color="#e50931" />
-              <v-icon name="star" scale="1.2" color="#e50931" />
-              <v-icon name="star" scale="1.2" color="#e50931" />
-              <v-icon name="star" scale="1.2" color="#e50931" />
+              <v-icon name="star" scale="1.2" color="#e50931" v-for="star in starAmount" :key="star"/>
             </div>
             <div id="trailerIcon">
               <p>Assista ao trailer</p>
@@ -33,7 +28,7 @@
           <div id="movieSynopsis">
             <p>{{ movie.Plot }}</p>
           </div>
-          <button id="myList" v-on:click="addToMyList">
+          <button id="myList" @click="addToMyList">
             Adicionar a minha lista
             <v-icon name="list-ul" scale="1.2" color="#e5e5e5" id="playIcon" />
           </button>
@@ -71,7 +66,6 @@
 </template>
 
 <script>
-import Header from "../components/Header";
 import { Movies } from "../services/api";
 import Icon from "vue-awesome/components/Icon";
 import { Trailer } from "../services/trailer";
@@ -87,25 +81,31 @@ export default {
     };
   },
   components: {
-    Header,
     Spinner,
     "v-icon": Icon
   },
-
-  async mounted() {
-    this.showLoading = true;
-    try {
-      const response = await Movies(`i=${this.$route.params.id}`).get();
-      this.movie = response.data;
-      const responseTrailer = await Trailer(`${this.movie.Title}`).get();
-      this.trailerID = responseTrailer.data.items[0].id.videoId;
-    } catch (error) {
-      console.log(error);
-    } finally {
-      this.showLoading = false;
+  computed: {
+    starAmount(){
+      return Math.floor(Math.random() * 5) + 1
     }
   },
+   mounted() {
+    this.getMovieDetail()
+  },
   methods: {
+    async getMovieDetail(){
+      this.showLoading = true;
+      try {
+        const { data } = await Movies(`i=${this.$route.params.id}`).get();
+        this.movie = data;
+        const responseTrailer = await Trailer(`${this.movie.Title}`).get();
+        this.trailerID = responseTrailer.data.items[0].id.videoId;
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.showLoading = false;
+      }
+    },
     addToMyList() {
       this.$store.commit("addToMyList", this.movie);
       this.showToast();

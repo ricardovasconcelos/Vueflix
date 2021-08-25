@@ -17,10 +17,10 @@ This project is Netflix simple clone built with Vuejs
 
 ### Getting started with the project
 
-1. Move yourself to the `services` folder
-2. Add the `YoutubeAPI KEY` in api file
+1. Move yourself to the `.env` file
+2. Add the `VUE_APP_YOUTUBE_KEY` in .env file
   - Get your api key here `https://developers.google.com/youtube/v3/getting-started`
-3. Add the `movieAPI KEY` in trailer file
+3. Add the `VUE_APP_MOVIEOMB_KEY` .env file
   - Get your api key here `http://www.omdbapi.com`
 4. Run `npm run serve` to start the web application on `localhost:8080`
 

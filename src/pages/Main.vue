@@ -1,43 +1,38 @@
 <template>
   <div id="app">
-    <Header />
     <NextReleases />
-    <Movies typeMovie="s=avengers" typeDescription="Populares na Vueflix" />
-    <Movies typeMovie="s=harry" typeDescription="Recomendados" />
-    <Movies typeMovie="s=fast" typeDescription="Em alta" />
-    <Movies typeMovie="s=super" typeDescription="Aventura" />
-    <Movies typeMovie="s=game" typeDescription="Ficção" />
-    <Movies typeMovie="s=brain" typeDescription="Para todas idades" />
-    <Movies typeMovie="s=all" typeDescription="Família" />
+    <Movies :key="movie.id" :type="movie.type" v-for="movie in movies"/>
     <h4>Vueflix - Ricardo Vasconcelos</h4>
   </div>
 </template>
 
 <script>
-import Header from "../components/Header";
 import NextReleases from "../components/NextReleases";
 import Movies from "../components/Movies";
+
 export default {
   name: "App",
   components: {
-    Header,
     NextReleases,
-    Movies
+    Movies,
+  },
+  computed: {
+    movies() {
+      return [
+        {id: 1, type: "s=avengers", description: "Populares na Vueflix"},
+        {id: 2, type: "s=harry", description: "Recomendados"},
+        {id: 3, type: "s=fast", description: "Em alta"},
+        {id: 4, type: "s=super", description: "Aventura"},
+        {id: 5, type: "s=game", description: "Ficção"},
+        {id: 6, type: "s=brain", description: "Para todas idades"},
+        {id: 7, type: "s=all", description: "Família"}
+      ]
+    }
   }
 };
 </script>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  outline: 0;
-  box-sizing: border-box;
-}
-body {
-  background-color: #141414;
-  height: 100vh;
-}
 #app h4 {
   color: #e9e9e9;
   text-align: center;
